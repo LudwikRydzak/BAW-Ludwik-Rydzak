@@ -1,4 +1,4 @@
-# Gra 1. 
+# GRA 1
 <https://uw-team.org/hackme/>
 
 Gra wita gracza krótkim przywitaniem:
@@ -9,7 +9,7 @@ Gra wita gracza krótkim przywitaniem:
 
 Gra polega na wypełnianiu okienka na tekst odpowiednim hasłem.
 Hasło należy wyczytać z kodu gry, który można zobaczyć po przyciśnięciu prawym przyciskiem myszy na stronę,
-a następnie wybraniu opcji *View page source* lub *Inspect*.  
+a następnie wybraniu opcji *View page source* lub *Inspect*. 
 
 ![wstep_inspect](/Foty/Do2022.03.20/Gra1/wstep_inspect.png "Opcja Inspect w menu kontekstowym strony w przeglądarce.") 
  
@@ -31,7 +31,7 @@ if (document.getElementById('haslo').value=='a jednak umiem czytac') {self.locat
 ```
 Należy zobaczyć na kod przycisku, który mówi że po jego naciśnięciu (onclick) wykona się funkcja sprawdz().
 <input type="button" value="OK" onclick="sprawdz()">
-Oznacza to, że poprawnym hasłem jest hasło „a jednak umiem czytac”. 
+Oznacza to, że poprawnym hasłem jest hasło ***a jednak umiem czytac***
 
 
 ## Level #2
@@ -49,36 +49,48 @@ Kod posiada jeszcze jeden skrypt, którego źródłem jest plik javascript „ha
 ``` javascript
 <script src="haselko.js"></script>
 ```
-po kliknięciu w plik, a następnie wybraniu opcji „Reveal in Sources panel” przenosi nas do zakładki obok z plikami źródłowymi.
+po kliknięciu w plik, a następnie wybraniu opcji *Reveal in Sources panel* przenosi nas do zakładki obok z plikami źródłowymi.
  
-![poziom2_sources](/Foty/Do2022.03.20/Gra1/poziom2_sources.png "Brak podgladu tresci obrazka")
+![poziom2_sources](/Foty/Do2022.03.20/Gra1/poziom2_sources.png "Brak podgladu tresci obrazka.")
 
-niestety nie jest możliwe pobranie skryptu 
-Skrypt jednak został pobrany przez przeglądarkę a jego zawartość można podejrzeć dzięki zakładce Network -> Preview
+Niestety nie jest możliwe przejrzenie skryptu w ten sposób.
+
+Skrypt jednak został pobrany przez przeglądarkę a jego zawartość można podejrzeć dzięki zakładce *Network --&gt Preview*.
   
-![pozioimw_haselko](/Foty/Do2022.03.20/Gra1/poziom2_haselko.png)
+![pozioim2_haselko](/Foty/Do2022.03.20/Gra1/poziom2_haselko.png "Zawratosc pliku haselko.js.")
 
-Otrzymujemy dzięki temu informację, że zmienna has przechowuje hasło „to bylo za proste”, a kolejne zadanie znajduje się na stronie formaster.htm czego nie musimy wykorzystywać. 
+Otrzymujemy dzięki temu informację, że zmienna has przechowuje hasło ***to bylo za proste***, a kolejne zadanie znajduje się na stronie formaster.htm czego nie musimy wykorzystywać. 
 
 ## Level #3
 <https://uw-team.org/hackme/formaster.htm>
 
 W poziome 3. przycisk znowu odnosi się do funkcji sprawdz() co prawdopodobnie będzie regułą w tej grze. 
 
-Na stronie znajduje się jeden skrypt z 4 funkcjami: 
+Na stronie znajduje się jeden skrypt z 4 funkcjami:
+
 	- right(e)
 	- prawy(txx)
 	- losuj()
 	- sprawdz()
+	
 Poza funkcjami znajdują się jeszcze zmienne:
+```
 dod=’unknow’
 literki=’abcdefh’
-ost=’’ -> pusty string
-Wywoływana jest funkcja prawy() która z kolei wykonuje funkcję right, która robi coś na IE albo Netscape. Na google chrome funkcja zwraca true. 
-Funkcja sprawdz której szukamy najpierw wywołuje funkcję losuj()  a następnie sprawdza czy wpisana wartość w oknie „haslo” zgadza się ze zmienną ost. jeśli tak to przenosi na nowy adres, który jest hasłem + „.htm”
-hasło to ost=literki.substring(2,4)+'qwe'+dod.substring(3,6);
+ost=’’
+```
+Wywoływana jest funkcja *prawy()*, która z kolei wykonuje funkcję *right()*, która robi coś na IE albo Netscape. 
+
+Na google chrome funkcja zwraca true. 
+
+Funkcja *sprawdz()* której szukamy najpierw wywołuje funkcję *losuj()*,  a następnie sprawdza czy wpisana wartość w oknie *haslo* zgadza się ze zmienną *ost*.
+Jeśli tak, to przenosi na nowy adres, który jest hasłem \+ „.htm”
+hasło to 
+```
 dod=’unknow’
 literki=’abcdefh’
+ost=literki.substring(2,4)+'qwe'+dod.substring(3,6);
+```
 Szczegółowy opis metody substring należącej do klasy String znajduje się pod tym linkiem:
 https://developer.mozilla.org/pl/docs/Web/JavaScript/Reference/Global_Objects/String/substring
 
