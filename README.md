@@ -23,3 +23,10 @@ Organizacja plików w repozytorium:
   
  </details>
 </details>
+
+
+<details> <summary>  inspiracja  </summary>
+ 
+<https://stackoverflow.com/questions/19699059/representing-directory-file-structure-in-markdown-syntax>
+ 
+ </details>
