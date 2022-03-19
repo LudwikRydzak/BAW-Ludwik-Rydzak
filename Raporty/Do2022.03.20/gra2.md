@@ -5,9 +5,8 @@
 
 Do rozwiązania zagadek posłużą:
 
-Prawy przycisk myszy \-\> inscpect
-
-narzędzie *curl*
+- Prawy przycisk myszy \-\> inscpect
+- narzędzie *curl*
 
 ## Level #1
 <https://uw-team.org/hm2/level1.htm>
