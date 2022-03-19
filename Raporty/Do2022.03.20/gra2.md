@@ -1,8 +1,10 @@
 # GRA 2
 <https://uw-team.org/hm2/>
- 
+
+![Zasady](/Foty/Do2022.03.20/Gra2/wstep.png "Jedna zasada, wszystkie chwyty dozwolone")
 
 ## Level #1
+<https://uw-team.org/hm2/level1.htm>
 W poziomie pierwszym znajdujemy przycisk uruchamiający fukcję spr(), która znajduje się w poniższym skrypcie.
 ```javascript
 <script>
@@ -18,6 +20,7 @@ Szukana wartość hasła jest taka sama jak wartość zmiennej value elementu �
 value formularza to “text” i jest to szukane hasło.
 
 ## Level #2
+<https://uw-team.org/hm2/text.htm>
 ```javascript
 <script>
 function spr(){
@@ -30,6 +33,7 @@ Ze skryptu można wyczytać, ze hasło powinno odpowiadać wartością pewnemu c
 Po przekonwertowaniu tego fragmentu w kalkulatorze ascii otrzymujemy hasło „banalne”.
 
 ## Level #3
+<https://uw-team.org/hm2/banalne.htm>
 W poziomie trzecim znajdujemy skrypt który mówi, że wartość podana jest najpierw konwertowana na liczbę a potem na liczbę binarną i ma być równa 10011010010.
 ```javascript
 <script>
@@ -44,6 +48,7 @@ if (binary(parseInt(document.getElementById('haslo').value))==10011010010) { sel
 Po przekonwertowaniu 10011010010 na system dziesiętny otrzymano 1234
 
 ## Level #4
+<https://uw-team.org/hm2/1234.htm>
 Do kolejnego poziomu będzie potrzebne użycie narzędzia curl. 
 ```bash
 curl https://uw-team.org/hm2/1234.htm 
@@ -66,6 +71,7 @@ if (haslo==cos.toString(16)) { self.location=haslo+'.php';} else {self.location=
 odkodowanie ciągu (unescape('%32%35%38') prowadzi do otrzymania liczby 102, która jest hasłem do tego poziomu. 
 
 ## Level #5
+<https://uw-team.org/hm2/102.php>
 Kod kolejnego etapu jest niewidoczny, natomiast dostajemy kod, który jest podpowiedzią. 
 ```
 if (!isset($haslo)) {$haslo='';}
@@ -79,12 +85,19 @@ wiemy, ze zmienna has i zmienna log mają być równe 1.
 Zmienne zmieniają wartość przy odpowiednio wpisanym tekście ale można je podać również w url’u
 <https://uw-team.org/hm2/102.php?log=1&has=1>
 po wejściu w odpowiednio spreparowany link przechodzimy do kolejnego poziomu
- 
+
+![poziom5_brawo](/Foty/Do2022.03.20/Gra2/poziom5_brawo.png "Brawo!")
+
 ## Level #6
+<https://uw-team.org/hm2/url.php>
 Kolejny poziom informuje nas, że dostaliśmy ciasteczko. Jest to oczywiście nawiązanie do mechanizmu „plików cookies” czyli ciasteczek które zazwyczaj przechowują różne informacje na temat sesji lub gromadzą różne dane statystyczne. 
-Można je zobaczyć jako fragment headera
+Można je zobaczyć jako fragment nagłówka:
+
+![poziom6_header](/Foty/Do2022.03.20/Gra2/poziom6_header.png "Headers: cookie")
  
 Lub w zakładce Cookies 
+
+![poziom6_cookies](/Foty/Do2022.03.20/Gra2/poziom6_cookies.png "Ciasteczka")
  
 Jeśli ktoś wykradnie nasze ciasteczko, może ukraść też sesję i mieć dostęp do jakiejś platformy bez faktycznych danych logowania. 
 W tym przypadku za pomocą ciasteczka przekazano adres strony kolejnego zadania.
@@ -92,6 +105,9 @@ W tym przypadku za pomocą ciasteczka przekazano adres strony kolejnego zadania.
 ## Level #7
 <https://uw-team.org/hm2/ciastka.htm>
 Kolejny poziom wymaga hasła.
+
+![poziom7_podaj haslo](/Foty/Do2022.03.20/Gra2/poziom7_podajhaslo.png "Podaj haslo prompt")
+
 ```bash
 curl https://uw-team.org/hm2/ciastka.htm
 ```
@@ -110,18 +126,31 @@ if(haslo==null) { self.location='http://www.uw-team.org/' } else location.href=s
 z pobranej zawratości strony wiemy że kolejna strona znajduje się w katalogu include serwera strony .
 Niektóre strony pozwalają na przeglądanie katalogów, a niektóre są podatne na path traversal, czyli podatność pozwalająca na przeglądanie zawartości nie tylko serwera ale też i całego dostępnego systemu plików. Zwykle pozwala to na ograniczony dostęp, kiedy serwer jest uruchomiony na dedykowanym koncie użytkownika, ale nawet wtedy istnieje możliwość dalszych eskalacji uprawnień.  
 po wpisaniu katalogu do url - <https://uw-team.org/hm2/include/> - widać kolejny plik cosik.js
+
+![poziom7_include](/Foty/Do2022.03.20/Gra2/poziom7_include.png "Wnetrze katalogu include na serwerze")
  
 a jego zawartością jedna linijka kolejnej strony:
+
+```
 strona='listing.php';
+```
 
 ## Level #8
+<https://uw-team.org/hm2/listing.php>
 Poziom ósmy zabezpieczony jest poprzez referrera. Jeśli wchodzilibyśmy na tę stronę przez link pochodzący z onet.pl, wtedy w nagłówku jako referrer byłby wpisany onet.pl. 
+
+![poziom8_referent](/Foty/Do2022.03.20/Gra2/poziom8_referent.png "Zabezpieczenie strony. Trzeba wejsc przez onet.pl.")
+
 ```bash
 curl https://uw-team.org/hm2/listing.php
 ```
  już w tym momencie można przeczytać zwartość strony ale znacznie łatwiej jest uruchomić tę stronę lokalnie w przeglądarce. Wybrano więc jedną z poprzednich stron i edytowano jej kod. 
  
+![poziom8_edit](/Foty/Do2022.03.20/Gra2/poziom8_edit.png "Edytowanie statycznej zawartości strony w przeglądarce.")
+ 
 Podmieniono zawartość strony na zawartość obecnej strony i zakomentowano „zabezpieczenie”.
+
+![poziom8_komentarz](/Foty/Do2022.03.20/Gra2/poziom8_komentarz.png "Zakomentowane zabezpieczenie")
  
 Ostatecznie z linii
 ```
@@ -129,11 +158,14 @@ Ostatecznie z linii
 ```
 usunięto styl i zmieniono background strony na zielony
  
+![poziom8_zielony](/Foty/Do2022.03.20/Gra2/poziom8_zielony.png "Zielone tlo. Bardzo ładne.")
+ 
 Można było też po prostu zaznaczyć fragment strony z napisem.
 kxnxgxnxa to hasło.
 otrzymujemy wiadomość że kolejny etap ukryty jest w pliku pokaz.php
 
 ## Level #9
+<https://uw-team.org/hm2/pokaz.php>
 Kolejny poziom wita nas alertem z informacją, że dopiero po godzinie 1 w nocy można odwiedzić stronę. Pobieramy jej zawartość curlem. 
 ```bash
 curl https://uw-team.org/hm2/pokaz.php   
@@ -150,9 +182,16 @@ if ((godzina>23) && (minuta>55)) {
 </script>
 <h3>Hackme 2.0 - level #9</h3>
 <!-- Widze ze zrodlo juz masz... albo je sciagnales, albo przestawiles sobie godzine na komputerze ;) //-->
-<font color="lime"><pre>01100111 01110010 01100001 01110100 01110101 01101100 01100001 01100011 01101010 01100101 00100001 00100000 01110101 01100100 01100001 11000101 10000010 01101111 00100000 01000011 01101001 00100000 01110011 01101001 11000100 10011001 00100000 01110101 01101011 01101111 11000101 10000100 01100011 01111010 01111001 11000100 10000111 00100000 01110100 01100101 00100000 01110111 01100101 01110010 01110011 01101010 01100101 00100000 01001000 01100001 01100011 01101011 01101101 01100101 00101110
+<font color="lime"><pre>
+01100111 01110010 01100001 01110100 01110101 01101100 01100001 01100011 01101010 01100101 00100001 
+00100000 01110101 01100100 01100001 11000101 10000010 01101111 00100000 01000011 01101001 00100000 
+01110011 01101001 11000100 10011001 00100000 01110101 01101011 01101111 11000101 10000100 01100011 
+01111010 01111001 11000100 10000111 00100000 01110100 01100101 00100000 01110111 01100101 01110010 
+01110011 01101010 01100101 00100000 01001000 01100001 01100011 01101011 01101101 01100101 00101110
 </pre></font>
 <br>Milego dekodowania :)
 </body></html>
 ```                     
 Po wklejeniu wiadomości w translator binary – ascii 
+
+![poziom9_wygrana](/Foty/Do2022.03.20/Gra2/poziom9_wygrana.png "Wygrana!")
