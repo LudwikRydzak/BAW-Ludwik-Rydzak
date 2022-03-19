@@ -1,32 +1,37 @@
 # GRA 2
-<https://uw-team.org/hm2/
+<https://uw-team.org/hm2/>
  
 
-Poziom 1
+## Level #1
 W poziomie pierwszym znajdujemy przycisk uruchamiający fukcję spr(), która znajduje się w poniższym skrypcie.
+```javascript
 <script>
 function spr(){
 if (document.getElementById('formularz').value==document.getElementById('haslo').value){ self.location.href=document.getElementById('haslo').value+'.htm'; } else {alert('Nie, to nie to haselko :(');}
 }
 </script>
+```
 Szukana wartość hasła jest taka sama jak wartość zmiennej value elementu „formularz” 
+```javascript
 <input value="text" name="formularz" id="formularz" type="hidden">
-
+```
 value formularza to “text” i jest to szukane hasło.
 
-Poziom 2
+## Level #2
+```javascript
 <script>
 function spr(){
 if (document.getElementById('haslo').value==unescape('%62%61%6E%61%6C%6E%65')) { self.location=document.getElementById('haslo').value+'.htm'; } else { alert('Zle haslo!'); }
 }
 </script>
+```
 Ze skryptu można wyczytać, ze hasło powinno odpowiadać wartością pewnemu ciągowi zapisanemu hexadecymalnie. 
 
 Po przekonwertowaniu tego fragmentu w kalkulatorze ascii otrzymujemy hasło „banalne”.
 
-Poziom 3
+## Level #3
 W poziomie trzecim znajdujemy skrypt który mówi, że wartość podana jest najpierw konwertowana na liczbę a potem na liczbę binarną i ma być równa 10011010010.
-
+```javascript
 <script>
 function binary(liczba) {
 return liczba.toString(2);
@@ -35,11 +40,15 @@ function spr(){
 if (binary(parseInt(document.getElementById('haslo').value))==10011010010) { self.location=document.getElementById('haslo').value+'.htm'; } else { alert('Zle! \nPodstawy matematyki sie klaniaja :)');}
 }
 </script>
+```
 Po przekonwertowaniu 10011010010 na system dziesiętny otrzymano 1234
 
-Poziom 4
+## Level #4
 Do kolejnego poziomu będzie potrzebne użycie narzędzia curl. 
+```bash
 curl https://uw-team.org/hm2/1234.htm 
+```
+```javascript
 <!-- FIGE Z MAKIEM DOSTANIESZ, A NIE HASLO! //-->
 <html><head><title>Hackme 2.0 - by Unknow</title></head><body text="white" bgcolor="black" link="yellow" vlink="yellow" alink="yellow">
 <script>
@@ -53,23 +62,25 @@ if (haslo==cos.toString(16)) { self.location=haslo+'.php';} else {self.location=
 <h3>Hackme 2.0 - level #4</h3>
 <a href="hehehe.htm">Kliknij mnie :)</a>
 </body></html>
-
+```
 odkodowanie ciągu (unescape('%32%35%38') prowadzi do otrzymania liczby 102, która jest hasłem do tego poziomu. 
 
-Poziom 5
+## Level #5
 Kod kolejnego etapu jest niewidoczny, natomiast dostajemy kod, który jest podpowiedzią. 
+```
 if (!isset($haslo)) {$haslo='';}
 if (!isset($login)) {$login='';}
 if ($haslo=="tu jest haslo") {$has=1;}
 if ($login=="tu jest login") {$log=1;}
 if (($has==1) && ($log==1)) { laduj nastepny level } else { powroc do tej strony } 
+```
 
 wiemy, ze zmienna has i zmienna log mają być równe 1.
 Zmienne zmieniają wartość przy odpowiednio wpisanym tekście ale można je podać również w url’u
-https://uw-team.org/hm2/102.php?log=1&has=1
+<https://uw-team.org/hm2/102.php?log=1&has=1>
 po wejściu w odpowiednio spreparowany link przechodzimy do kolejnego poziomu
  
-Poziom 6
+## Level #6
 Kolejny poziom informuje nas, że dostaliśmy ciasteczko. Jest to oczywiście nawiązanie do mechanizmu „plików cookies” czyli ciasteczek które zazwyczaj przechowują różne informacje na temat sesji lub gromadzą różne dane statystyczne. 
 Można je zobaczyć jako fragment headera
  
@@ -78,11 +89,13 @@ Lub w zakładce Cookies
 Jeśli ktoś wykradnie nasze ciasteczko, może ukraść też sesję i mieć dostęp do jakiejś platformy bez faktycznych danych logowania. 
 W tym przypadku za pomocą ciasteczka przekazano adres strony kolejnego zadania.
 
-Poziom 7
-https://uw-team.org/hm2/ciastka.htm
+## Level #7
+<https://uw-team.org/hm2/ciastka.htm>
 Kolejny poziom wymaga hasła.
- 
-$ curl https://uw-team.org/hm2/ciastka.htm
+```bash
+curl https://uw-team.org/hm2/ciastka.htm
+```
+```javascript
 <html><head><title>Hackme 2.0 - by Unknow</title></head><body text="white" bgcolor="black" link="yellow" vlink="yellow" alink="yellow">
 <script>
 strona='zle.htm';
@@ -92,33 +105,41 @@ onload=function(){
 if(haslo==null) { self.location='http://www.uw-team.org/' } else location.href=strona; }
 </script>
 </body></html>  
+```
 
 z pobranej zawratości strony wiemy że kolejna strona znajduje się w katalogu include serwera strony .
 Niektóre strony pozwalają na przeglądanie katalogów, a niektóre są podatne na path traversal, czyli podatność pozwalająca na przeglądanie zawartości nie tylko serwera ale też i całego dostępnego systemu plików. Zwykle pozwala to na ograniczony dostęp, kiedy serwer jest uruchomiony na dedykowanym koncie użytkownika, ale nawet wtedy istnieje możliwość dalszych eskalacji uprawnień.  
-po wpisaniu katalogu do url - https://uw-team.org/hm2/include/ - widać kolejny plik cosik.js
+po wpisaniu katalogu do url - <https://uw-team.org/hm2/include/> - widać kolejny plik cosik.js
  
 a jego zawartością jedna linijka kolejnej strony:
 strona='listing.php';
 
-Poziom 8
+## Level #8
 Poziom ósmy zabezpieczony jest poprzez referrera. Jeśli wchodzilibyśmy na tę stronę przez link pochodzący z onet.pl, wtedy w nagłówku jako referrer byłby wpisany onet.pl. 
- 
+```bash
 curl https://uw-team.org/hm2/listing.php
+```
  już w tym momencie można przeczytać zwartość strony ale znacznie łatwiej jest uruchomić tę stronę lokalnie w przeglądarce. Wybrano więc jedną z poprzednich stron i edytowano jej kod. 
  
 Podmieniono zawartość strony na zawartość obecnej strony i zakomentowano „zabezpieczenie”.
  
 Ostatecznie z linii
+```
 <div id="ukryte" style="display:none">
+```
 usunięto styl i zmieniono background strony na zielony
  
 Można było też po prostu zaznaczyć fragment strony z napisem.
 kxnxgxnxa to hasło.
 otrzymujemy wiadomość że kolejny etap ukryty jest w pliku pokaz.php
 
-Poziom 9
+## Level #9
 Kolejny poziom wita nas alertem z informacją, że dopiero po godzinie 1 w nocy można odwiedzić stronę. Pobieramy jej zawartość curlem. 
-curl https://uw-team.org/hm2/pokaz.php                                                                                    130 ⨯
+```bash
+curl https://uw-team.org/hm2/pokaz.php   
+```
+ 
+```javascript
 <html><head><title>Hackme 2.0 - by Unknow</title></head><body text="white" bgcolor="black" link="yellow" vlink="yellow" alink="yellow">
 <script>
 var now = new Date();
@@ -133,5 +154,5 @@ if ((godzina>23) && (minuta>55)) {
 </pre></font>
 <br>Milego dekodowania :)
 </body></html>
-                     
+```                     
 Po wklejeniu wiadomości w translator binary – ascii 
