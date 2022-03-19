@@ -52,10 +52,12 @@ Kod posiada jeszcze jeden skrypt, którego źródłem jest plik javascript „ha
 po kliknięciu w plik, a następnie wybraniu opcji „Reveal in Sources panel” przenosi nas do zakładki obok z plikami źródłowymi.
  
 ![poziom2_sources](/Foty/Do2022.03.20/Gra1/poziom2_sources.png "Brak podgladu tresci obrazka")
+
 niestety nie jest możliwe pobranie skryptu 
 Skrypt jednak został pobrany przez przeglądarkę a jego zawartość można podejrzeć dzięki zakładce Network -> Preview
   
 ![pozioimw_haselko](/Foty/Do2022.03.20/Gra1/poziom2_haselko.png)
+
 Otrzymujemy dzięki temu informację, że zmienna has przechowuje hasło „to bylo za proste”, a kolejne zadanie znajduje się na stronie formaster.htm czego nie musimy wykorzystywać. 
 
 ## Level #3
@@ -99,7 +101,7 @@ if (zaq==wynik) {self.location.href='go'+wynik+'.htm';} else {alert('Zle haslo!'
 }}
 </script>
 ```
-Rozwiązujemy zatem działanie. Reszta z dzielenia 6/2 to 0, 0 razy cokolwiek daje 0 wiec lewą stronę dodawania można pominąć. (300/4)*2/3+121 można uprościć do 50+121 = 171
+Rozwiązujemy zatem działanie. Reszta z dzielenia 6/2 to 0, 0 razy cokolwiek daje 0 wiec lewą stronę dodawania można pominąć. (300/4)\*2/3+121 można uprościć do 50+121 = 171
 A zatem jest to wynik dodawania i hasło do przejścia na kolejny poziom.
 
 ## Level #5
@@ -245,10 +247,15 @@ if (wyn==zaq) {self.location.href=wyn+'.htm';} else {alert('Zle haslo!');}
 ```
 Na początku skryptu widzimy obfuskowany zapis dodający potajemnie dodatkowy skrypt na stronie. 
 po wpisaniu zawartości zmiennej src w kalkulator hexadecymalny asciitohex.com otrzymujemy nazwę skryptu.
+
 ![poziom8_hextoascii](/Foty/Do2022.03.20/Gra1/poziom8_hextoascii.png "Widok tłumaczonego fragmentu z hexadecymalnego na ascii.")
+
 ![poziom8_zsedcx](/Foty/Do2022.03.20/Gra1/poziom8_zsedcx.png "Zawartość znalezionego pliku zsedcx.js.")
+
 przy okazji trafiamy na niespodzianke:
+
 ![pozim8_niespodzianka](/Foty/Do2022.03.20/Gra1/poziom8_niespodzianka.png "Znaleziona niespodzianka w plikach strony.")
+
 W skrypcie mamy zmienną wyn, która będzie wynikiem obliczeń i sumowania znaków i jej obliczenie pozwoli poznać hasło. 
 Jest pętla która iteruje od 0 do 10 włącznie co 2 oraz zmienne qet i get przy czym zmiennej get nigdy nie używamy  i pewnie jest to pułapka na którą trzeba uważać przy czytaniu kodu. 
 Iterujemy 6 razy po pętli zwiększając i o 2 za każdym razem zwiększając qet na końcu. do wyn dopisujemy znak o indeksie qet+i, czyli 6 znaków -> „qrupjf”
