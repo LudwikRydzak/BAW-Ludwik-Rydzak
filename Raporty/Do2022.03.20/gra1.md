@@ -146,9 +146,12 @@ if (ile==861) {self.location.href=seconds+'x.htm'} else {alert('Zle haslo!');}
 wartość ile określana jest poprzez sekundy\*(sekundy\-1)\/2\ * (cyfra pomocnicza%2) co oznacza, że cyfra pomocnicza może być albo 0 albo 1 (każda inna jest odpowiednikiem jednej z nich). 
 
 (s(s\-1))\/2 \= 861
+
 s(s\-1) \= 1722 
+
 To równanie jest spełnione dla liczby s\=***42***
-i aby zamek zadziałał ***należy ustawić cyfrę pomocniczą na nieparzystą*** (na przykład 1). 
+
+Aby zamek zadziałał ***należy ustawić cyfrę pomocniczą na nieparzystą*** (na przykład 1). 
 
 
 ## Level #6
@@ -267,8 +270,11 @@ if (wyn=='plxszn_xrv') {self.location.href=wyn+'.htm';} else {alert('Zle haslo!'
 }
 </script>
 ```
+
 szyfrogram \-\> 'plxszn_xrv'
+
 wiadomość \-\> ‘kocham cie’
+
 Wynikowa wiadomość po wpisaniu do okna przenosi nas do kolejnego zadania. 
 
 ## Level #8
@@ -304,11 +310,17 @@ W skrypcie mamy zmienną wyn, która będzie wynikiem obliczeń i sumowania znak
 Jest pętla, która iteruje od 0 do 10 włącznie co 2 oraz zmienne *qet* i *get* przy czym zmiennej *get* nigdy nie używamy i pewnie jest to pułapka, na którą trzeba uważać przy czytaniu kodu.
 
 Iterujemy 6 razy po pętli zwiększając i o 2, za każdym razem zwiększając *qet* na końcu. Do *wyn* dopisujemy znak o indeksie *qet\+i*, czyli 6 znaków \-\> qrupjf
+
 Na końcu dopisujemy wynik działania obliczonego w znalezionym skrypcie.
+
 ax \= 6
+
 bx \= 3
+
 cx \= 9
+
 6 \* 3 \* 9 \= 162
+
 wyn \= ***qrupjf162***
 
 ## Wygrana!
