@@ -10,8 +10,10 @@ Gra wita gracza krótkim przywitaniem:
 Gra polega na wypełnianiu okienka na tekst odpowiednim hasłem.
 Hasło należy wyczytać z kodu gry, który można zobaczyć po przyciśnięciu prawym przyciskiem myszy na stronę,
 a następnie wybraniu opcji *View page source* lub *Inspect*.  
+![wstep_inspect](/Foty/Do2022.03.20/Gra1/wstep_inspect "Opcja Inspect w menu kontekstowym strony w przeglądarce.") 
  
 ## Level #1
+<https://uw-team.org/hackme/level1.htm>
 Gra rozpoczyna się powoli od wprowadzającego zadania. W kodzie strony widać 2 skrypty z funkcjami *sprawdz()* i *sprawdz�()*
 ``` javascript
 <script>
@@ -31,6 +33,7 @@ Oznacza to, że poprawnym hasłem jest hasło „a jednak umiem czytac”.
 
 
 ## Level #2
+<https://uw-team.org/hackme/ok_next.htm>
 W poziomie drugim przycisk znowu wskazuje na użycie funkcji sprawdz(), która ma w sobie nieznane zmienne  w tym zmienną z hasłem „has”, której będziemy szukać. 
 ```javascript
 <script>
@@ -52,6 +55,7 @@ Skrypt jednak został pobrany przez przeglądarkę a jego zawartość można pod
 Otrzymujemy dzięki temu informację, że zmienna has przechowuje hasło „to bylo za proste”, a kolejne zadanie znajduje się na stronie formaster.htm czego nie musimy wykorzystywać. 
 
 ## Level #3
+<https://uw-team.org/hackme/formaster.htm>
 W poziome 3. przycisk znowu odnosi się do funkcji sprawdz() co prawdopodobnie będzie regułą w tej grze. 
 
 Na stronie znajduje się jeden skrypt z 4 funkcjami: 
@@ -77,6 +81,7 @@ całe hasło powinno składać się do: cd + qwe + now = „cdqwenow”
 I jest to prawidłowe hasło.
 
 ## Level #4
+<https://uw-team.org/hackme/cdqwenow.htm>
 W poziomie 4 czeka na nas skrypt w którym hasłem jest wynik działania. 
 ```javascript
 <script>
@@ -92,6 +97,7 @@ Rozwiązujemy zatem działanie. Reszta z dzielenia 6/2 to 0, 0 razy cokolwiek da
 A zatem jest to wynik dodawania i hasło do przejścia na kolejny poziom.
 
 ## Level #5
+https://uw-team.org/hackme/go171.htm
 W zadaniu widzimy licznik który odmierza czas od 0 do 59.  Ze skryptu można wyczytać, że naszym zadaniem jest doprowadzić wartość „ile” do 861. 
 ``` javascript
 <script>
@@ -119,7 +125,7 @@ i aby zamek zadziałał należy ustawić cyfrę pomocniczą na nieparzystą.
 
 
 ## Level #6
-https://uw-team.org/hackme/42x.htm
+<https://uw-team.org/hackme/42x.htm>
 ``` javascript
 <script>
 var lit='abcdqepolsrc';
@@ -164,6 +170,7 @@ hsx = „bxd_ex”+”_ex” = „bxd_ex_ex”
 co okazuje się być poprawnym hasłem
 
 ## Level #7
+<https://uw-team.org/hackme/bxd_ex_ex.htm>
 W poziomie 7. mamy rozwiązać szyfr podstawieniowy.
 Dostajemy funkcję która zawiera w sobie szyfrogram oraz klucz i na tej podstawie musimy wydobyć wiadomość, którą należy wpisać do okna.
 ``` javascript
@@ -212,6 +219,7 @@ wiadomość = ‘kocham cie’
 Wynikowa wiadomość po wpisaniu do okna przenosi nas do kolejnego zadania. 
 
 ## Level #8
+<https://uw-team.org/hackme/plxszn_xrv.htm>
 ``` javascript
 <script>
 var roz='dsabdkgsawqqqlsahdas'; var tmp=roz.substring(2,5)+roz.charAt(12);
@@ -242,6 +250,6 @@ cx=9
 wyn = ‘qrupjf162’
 
 ## Wygrana!
-https://uw-team.org/hackme/qrupjf162.htm
+<https://uw-team.org/hackme/qrupjf162.htm>
 
  
