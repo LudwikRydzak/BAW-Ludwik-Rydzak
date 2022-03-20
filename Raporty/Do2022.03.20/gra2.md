@@ -93,7 +93,7 @@ if (haslo==cos.toString(16)) { self.location=haslo+'.php';} else {self.location=
 ```
 
 Odkodowanie ciągu unescape('%32%35%38') w [kalkulatorze ascii](https://www.asciitohex.com/) (lub w kompilatorze javascript)
-prowadzi do otrzymania liczby 
+prowadzi do otrzymania liczby 258, ktora z kolei przekonwertowana do szestnastkowego daje liczbę
 ***102***, która jest hasłem do tego poziomu. 
 
 ## Level #5
