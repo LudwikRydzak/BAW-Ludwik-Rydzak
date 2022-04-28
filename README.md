@@ -11,15 +11,36 @@ Organizacja plików w repozytorium:
   
 &nbsp;&nbsp;&nbsp;&nbsp;┃ ┣ 📜 [gra1.md](/Raporty/Do2022.03.20/gra1.md) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [gra2.md](/Raporty/Do2022.03.20/gra2.md)</details>
- <details> <summary> ┣ 📂Do2022.04 </summary>
+ <details> <summary> ┣ 📂Do2022.04.29 </summary>
   
-&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [pustyraport.md](/Raporty/Do2022.04/pustyraport.md) <br></details>
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [zadanie1.md](/Raporty/Do2022.04.29/zadanie1.md) <br></details>
+ <details> <summary> ┣ 📂Do2022.05.10</summary>
+  
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [zadanie2.md](/Raporty/Do2022.05.10/zadanie2.md) <br></details>
+ <details> <summary> ┗ 📂Do2022.05.20 </summary>
+  
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [zadanie3.md](/Raporty/Do2022.05.20/zadanie3.md) <br></details>
 </details>
 <details> <summary> 📂Zdjęcia </summary>
  <details> <summary> ┣ 📂Do2022.03.20 </summary>
  
 &nbsp;&nbsp;&nbsp;&nbsp;┃ ┣ 📂Gra1<br>
 &nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📂Gra2
+  
+ </details>
+  <details> <summary> ┣ 📂Do2022.04.29 </summary>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📂Zadanie1
+  
+ </details>
+  <details> <summary> ┣ 📂Do2022.05.10 </summary>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📂Zadanie2
+  
+ </details>
+  <details> <summary> ┗ 📂Do2022.05.20 </summary>
+ 
+&nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📂Zadanie3
   
  </details>
 </details>
