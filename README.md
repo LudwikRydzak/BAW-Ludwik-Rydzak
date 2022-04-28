@@ -19,7 +19,7 @@ Organizacja plików w repozytorium:
 &nbsp;&nbsp;&nbsp;&nbsp;┃ ┗ 📜 [zadanie2.md](/Raporty/Do2022.05.10/zadanie2.md) <br></details>
  <details> <summary> ┗ 📂Do2022.05.20 </summary>
   
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ┗ 📜 [zadanie3.md](/Raporty/Do2022.05.20/zadanie3.md) <br></details>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ┗ 📜 [zadanie3.md](/Raporty/Do2022.05.20/zadanie3.md) <br></details>
 </details>
 <details> <summary> 📂Zdjęcia </summary>
  <details> <summary> ┣ 📂Do2022.03.20 </summary>
@@ -40,7 +40,7 @@ Organizacja plików w repozytorium:
  </details>
   <details> <summary> ┗ 📂Do2022.05.20 </summary>
  
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ┗ 📂Zadanie3
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ┗ 📂Zadanie3
   
  </details>
 </details>
