@@ -1,6 +1,10 @@
 ######## Notatki ########
 
 https://docs.docker.com/compose/install/
+mkdir http-only https-only https-http only-user-a only-user-b admin
+
+RewriteRule   "^/http-only/(.+)"  "http://bawapache.pl:6080/http-only/$1"  [R,L]
+
 
 #########################
 
@@ -11,7 +15,7 @@ Cele zadania:
 - Utworzenie kontenerów dockera z serwerem apache i serwerem nginx,
 - Wygenerowanie self-signed certyfikatów,
 - Skonfigurowanie https,
-- skonfigurowanie ścieżki /http-only, /https-only, oraz przekierowanie każdej innej na https
+- skonfigurowanie ścieżki /http-only, /https-only, /http-https oraz przekierowanie każdej innej na https
 
 	
 ## Pobieranie i instalacja Docker Compose 
@@ -44,9 +48,46 @@ Do pliku /etc/hosts dodano następujące linie
 
 Tworzenie kontenerów apache i nginx zostało zrobione za pomocą pliku docker-compose.yml
 
+Jako, że jeden port może należeć tylko do jednego serwisu zdecydowano się nie oddawać portu 80 i 443 
+żadnemu z serwerów. 
+
+Każdy serwer otrzymał swoją numerację gdzie:
+ - dla nginx zarezerwowano porty  5080 i 5443
+ - dla apache zarezerwowano porty 6080 i 6443
+
+utworzono dwa serwisy:
+```yml
+services:
+	bawnginx:
+	
+	bawapache:
+```
 ### Apache
+Serwis apache w yaml'u:
 
+```yml
+bawapache:
+    image: httpd:latest
+    ports:
+      - 6080:80
+      - 6443:443
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./bawapache.pl/:/var/www/bawapache.pl/
+      - ./httpd_ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./cert_apache.crt:/usr/local/apache2/conf/server.crt
+      - ./key_apache.key:/usr/local/apache2/conf/server.key
+```
 
+Wykorzystano oficjalny obraz apache'a "httpd:latest"
+
+Przemapowano porty maszyny (zewnętrzne) na porty wewnątrz serwisu. 
+
+Dodatkowo przekazano kontenerom ustawienia: 
+	- plik konfiguracyjny serwera
+	- plik konfiguracyjny ssl
+	- pliki certyfikatu i klucza 
+	- pliki z zawartością strony do testowania
 
 ### Nginx
 
@@ -72,14 +113,13 @@ Po odwiedzeniu strony, przedstawia się ona następująco:
 
 ![Strona apache http](apache_port80.png)
 
-Następnie odblokowano:
+Następnie odblokowano ssl_module w pliku konfiguracyjnym:
 ```
 LoadModule ssl_module modules/mod_ssl.so
-
 LoadModule socache_shmcb_module modules/mod_socache_shmcb.so
-
 ```
- ssl_module w pliku konfiguracyjnym oraz na samym dole odblokowano 
+
+na samym dole odkomentowano również:
 ```
 Include conf/extra/httpd-ssl.conf
 ```
@@ -93,6 +133,7 @@ docker cp b1101c7f7089:/usr/local/apache2/conf/extra/httpd-ssl.conf httpd_ssl.co
 ```
 
 W pliku konfogiracyjnym znaleziono domyślne ścieżki dla plików certyfikatu oraz klucza.
+
 ```
 SSLCertificateFile "/usr/local/apache2/conf/server.crt"
 SSLCertificateKeyFile "/usr/local/apache2/conf/server.key"
@@ -103,5 +144,51 @@ Zaktualizowano dane strony:
 DocumentRoot "/var/www/bawapache.pl"
 ServerName bawapache.pl:443
 ```
+
+Przeglądarka wykrywa certyfikat. 
+![Złota ramka]()
+
+Strona działa poprawnie
+![strona Apache na procie 443]()
+
+### Przekierowanie Apache 
+
+Do przekierowywania stron w Apach będzie potrzeby rewrite module, który uaktywniamy w pliku konfiguracyjnym.
+```
+LoadModule rewrite_module modules/mod_rewrite.so
+```
+
+Do zarządzania subdomenami użyto następującej logiki:
+	1. Wszystkie strony https-only zablokowano na porcie 80
+	2. Wszystkie strony http-only zablokowano na porcie 443
+	3. Wszystkie strony http-https mają działać na obu portach
+	4. Wszystkie strony poza https-only, http-https(bo punkt 3.) przekierowano z 80 -> 443
+
+W tym celu dodano do pliku konfiguracyjnego:
+```
+RewriteEngine on
+
+RewriteRule "^/https-only/(.+)" "-" [F]
+RewriteRule "^(?:(?!\/http-https\/|\/http-only\/).)*$"  "https://bawapache.pl:6443/$1"  [R,L]
+```
+Blokowanie wszystkich stron /https-only na porcie 80.
+Przekierowywanie wszystkich stron które nie mają w sobie /http-only/ oraz /http-https/ na port 443
+
+
+Oraz do pliku konfiguracyjnego ssl:
+```
+RewriteEngine on
+RewriteRule "^/http-only/(.+)" "-" [F]
+```
+Blokowanie wszystkich stron /http-only na portcie 443
+
+### Testy poprawności działania
+
+1. Blokowanie https-only na porcie 80
+2. Blokowanie http-only na porcie 443
+3. Działanie http-https na obu portach
+4. Przekierowywanie innych adresów na port 443
+
+
 
 
