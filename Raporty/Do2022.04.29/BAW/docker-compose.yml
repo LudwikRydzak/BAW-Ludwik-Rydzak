@@ -1,0 +1,22 @@
+services:
+  bawnginx:
+    image: nginx:latest
+    ports: 
+      - 5080:80
+      - 5443:443
+    volumes:
+      - ./cert_nginx.pem:/etc/nginx/ssl/bawnginx.pl.pem
+      - ./key_nginx.key:/etc/nginx/ssl/bawnginx.pl.key
+      - ./nginx_default.conf:/etc/nginx/conf.d/default.conf
+      - ./bawnginx.pl/:/usr/share/nginx/bawnginx.pl
+  bawapache:
+    image: httpd:latest
+    ports: 
+      - 6080:80
+      - 6443:443
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./bawapache.pl/:/var/www/bawapache.pl/
+      - ./httpd_ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./cert_apache.crt:/usr/local/apache2/conf/server.crt
+      - ./key_apache.key:/usr/local/apache2/conf/server.key
