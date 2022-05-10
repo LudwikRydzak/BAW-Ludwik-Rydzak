@@ -95,12 +95,29 @@ Dodatkowo przekazano kontenerom ustawienia:
 
 ### Nginx
 
+Serwis Nginx w yaml'u:
 
+```yml
+bawnginx:
+    image: nginx:latest
+    ports:
+      - 5080:80
+      - 5443:443
+    volumes:
+      - ./cert_nginx.pem:/etc/nginx/ssl/bawnginx.pl.pem
+      - ./key_nginx.key:/etc/nginx/ssl/bawnginx.pl.key
+      - ./nginx_default.conf:/etc/nginx/conf.d/default.conf
+      - ./bawnginx.pl/:/usr/share/nginx/bawnginx.pl
+```
 
+Wykorzystano oficjalny obraz nginx'a "nginx:latest"
 
+Przemapowano porty maszyny (zewnętrzne) na porty wewnątrz serwisu. 
 
-
-
+Dodatkowo przekazano kontenerom ustawienia: 
+	- plik konfiguracyjny serwera
+	- pliki certyfikatu i klucza 
+	- pliki z zawartością strony do testowania
 
 ## Konfiguracja serwera Apache
 
@@ -261,3 +278,27 @@ Na serwerze zajmującym się portem 443 dodano:
 ```
 
 
+## Testy poprawności działania
+
+W celu sprawdzenia działania serwerów przeprowadzono testy. 
+W tym celu utworzono kilka przykładowych plików stron wraz z katalogami. 
+Wybierano odpowiedni adres w przeglądarce i dokumentowano wyniki.
+
+### Testy Apache'a
+
+
+### Testy Nginx'a 
+
+## Wnioski
+
+Przede wszystkim, udało się osiągnąć zamierzone cele zadania w 100%. 
+
+Samo zadanie jest pewnie do wykonania w godzinę, ale bez znajomości narzędzi całość zajęła ponad tydzień. 
+
+Dużo czasu poświęcono na:
+- zrozumienie struktury pliku docker-compose.yml, 
+- odpowiednie ustawienie portów
+- zrozumienie konfiguracji apache'a
+- napisanie odpowiedniego wyrażenia regularnego dla apache'a
+
+Serwer nginx wydaje się być prostszy w konfiguracji i łatwiej w nim pisało się reguły. 
