@@ -3,9 +3,6 @@
 https://docs.docker.com/compose/install/
 mkdir http-only https-only https-http only-user-a only-user-b admin
 
-RewriteRule   "^/http-only/(.+)"  "http://bawapache.pl:6080/http-only/$1"  [R,L]
-
-
 #########################
 
 # Zadanie 1.
@@ -42,6 +39,13 @@ Do pliku /etc/hosts dodano następujące linie
 ```
 127.0.0.1       bawnginx.pl www.bawnginx.pl
 127.0.0.1       bawapache.pl www.bawapache.pl
+```
+
+## Generowanie self-signed certyfikatów
+
+```
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key_nginx.key -out cert_nginx.pem
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key_apache.key -out cert_apache.crt
 ```
 
 ## Tworzenie kontenerów apache i nginx
@@ -169,7 +173,7 @@ W tym celu dodano do pliku konfiguracyjnego:
 RewriteEngine on
 
 RewriteRule "^/https-only/(.+)" "-" [F]
-RewriteRule "^(?:(?!\/http-https\/|\/http-only\/).)*$"  "https://bawapache.pl:6443/$1"  [R,L]
+RewriteRule "^(?:(?!\/http-https\/|\/http-only\/).)*$"  "https://bawapache.pl:6443/%{REQUEST_URI}"  [R,L]
 ```
 Blokowanie wszystkich stron /https-only na porcie 80.
 Przekierowywanie wszystkich stron które nie mają w sobie /http-only/ oraz /http-https/ na port 443
@@ -190,5 +194,70 @@ Blokowanie wszystkich stron /http-only na portcie 443
 4. Przekierowywanie innych adresów na port 443
 
 
+## Konfiguracja serwera Nginx 
+```
+docker cp 5db4f5a83a47:/etc/nginx/conf.d/default.conf nginx_default.conf 
+docker cp 5db4f5a83a47:/etc/nginx/nginx.conf nginx.conf   
+```
+
+Do pliku konfiguracyjnego dopisano fragment odpowiadający za ssl. 
+
+Został on dodany osobno, a nie połączony, aby można było łatwiej dokonywać zmian.  
+
+```
+ server {
+
+    listen      443 ssl;
+    server_name  bawnginx.pl;
+    ssl_certificate_key /etc/nginx/ssl/bawnginx.pl.key;
+    ssl_certificate     /etc/nginx/ssl/bawnginx.pl.pem;
+
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES>
+    ssl_prefer_server_ciphers off;
+
+    add_header Strict-Transport-Security max-age=31536000;
+
+    location / {
+        root   /usr/share/nginx/bawnginx.pl;
+        index  index.html index.htm;
+    }
+
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+
+```
+
+### Przekierowanie nginx
+
+Do zarządzania subdomenami użyto następującej logiki:
+	1. Wszystkie strony https-only zablokowano na porcie 80
+	2. Wszystkie strony http-only zablokowano na porcie 443
+	3. Wszystkie strony http-https mają działać na obu portach
+	4. Wszystkie strony poza https-only, http-https(bo punkt 3.) przekierowano z 80 -> 443
+	
+W tym celu w serwerze zajmującym się portem 80 dodano:
+
+```
+ location /https-only {
+        deny all;
+        return 403;
+    }
+ location ^(?:(?!\/http-https\/|\/http-only\/).)*$ {
+        return 301 https://bawnginx.pl$request_uri;
+    }
+
+```
+
+Na serwerze zajmującym się portem 443 dodano:
+```
+ location /http-only {
+        deny all;
+        return 403;
+    }
+```
 
 
