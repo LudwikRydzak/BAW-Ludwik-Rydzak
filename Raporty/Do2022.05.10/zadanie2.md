@@ -193,20 +193,31 @@ Ale ostatecznie żadna metoda nie chciała działać poprawnie.
 
 Przed wybraniem certyfikatu:
 
+![](/Foty/Do2022.05.10/apache_request_a.png)
 
 Po wybraniu poprawnego certyfikatu:
 
+![](/Foty/Do2022.05.10/apache_accessa_a.png)
+
 Działa również strona A-or-B
+
+![](/Foty/Do2022.05.10/apache_accessab_a.png)
 
 nie działa strona B
 
+![](/Foty/Do2022.05.10/apache_forbiddenb_a.png)
 
 aby ponownie pokazało sie okno z wyborem certyfikatu, nalezy usunąć z automatycznie używanych certyfikatów:
 
+![](/Foty/Do2022.05.10/delete_cert.png)
+
 Strona B działa po wybraniu certyfikatu B
+
+![](/Foty/Do2022.05.10/apache_accessb_b.png)
 
 Za to strona A ponownie nie działa
 
+![](/Foty/Do2022.05.10/apache_forbidden_a.png)
 
 
 ## Wnioski
