@@ -1,0 +1,26 @@
+services:
+  bawnginx:
+    image: nginx:latest
+    ports: 
+      - 5080:80
+      - 5443:443
+    volumes:
+      - ./ssl/nginx.crt:/etc/nginx/ssl/bawnginx.pl.pem
+      - ./ssl/nginx.key:/etc/nginx/ssl/bawnginx.pl.key
+      - ./ssl/nginx-ca.crt:/etc/nginx/ssl/selfsigned-ca.pem
+      - ./ssl/nginx-userA.crt:/etc/nginx/ssl/userA.crt
+      - ./ssl/nginx-userB.crt:/etc/nginx/ssl/userB.crt      
+      - ./nginx_default.conf:/etc/nginx/conf.d/default.conf
+      - ./bawnginx.pl/:/usr/share/nginx/bawnginx.pl
+  bawapache:
+    image: httpd:latest
+    ports: 
+      - 6080:80
+      - 6443:443
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./bawapache.pl/:/var/www/bawapache.pl/
+      - ./httpd_ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./ssl/selfsigned.crt:/usr/local/apache2/conf/server.crt
+      - ./ssl/selfsigned.key:/usr/local/apache2/conf/server.key
+      - ./ssl/selfsigned-ca.crt:/usr/local/apache2/conf/selfsigned-ca.crt
