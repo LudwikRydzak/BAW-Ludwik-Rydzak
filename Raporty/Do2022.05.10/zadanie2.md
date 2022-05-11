@@ -1,15 +1,19 @@
-
 #Zadanie 2.
 
 Celem zadania drugiego jest utworzenie certyfikatów dla użytkownika A i użytkownika B oraz
 skonfigurowanie ścieżek /only-user-a, /only-user-b oraz /user-a-or-b tak aby tylko odpowiedni użytkownik miał 
 do nich dostęp. Dodatkowo, podścieżka /info wyświetli informacje z certyfikatu.
 
+
 ## Tworzenie niezbędnych certyfikatów
+
 utworzono nowy katalog na te wszystkie klucze i certyfikaty
+
 ```
 mkdir ssl
 ```
+
+W tym katalogu utworzono selfsigned certyfikat. 
 
 ```
 sudo openssl req -newkey rsa:2048 -nodes -keyform PEM -keyout selfsigned-ca.key -x509 -days 3650    -outform PEM -out selfsigned-ca.crt
@@ -118,7 +122,7 @@ services:
 ```
 
 
-## konfiguracja Apache
+## Konfiguracja Apache
 Konfigurację apache wykonano na podstawie opisu w [dokumentacji](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html).
 
 W pliku konfiguracyjnym httpd-ssl.conf
