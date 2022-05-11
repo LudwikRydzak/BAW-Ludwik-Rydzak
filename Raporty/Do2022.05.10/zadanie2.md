@@ -58,11 +58,15 @@ sudo openssl x509 -req -in selfsigned-userA.csr -CA selfsigned-ca.crt -CAkey sel
 sudo openssl x509 -req -in selfsigned-userB.csr -CA selfsigned-ca.crt -CAkey selfsigned-ca.key -set_serial 102 -days 365 -outform PEM -out selfsigned-userB.crt
 ```
 ![](/Foty/Do2022.05.10/podpisanie_certyfikatow.png)
+
+Pakiety do wczytania do przeglądarki:
 ```bash
 #Zrobienie z certyfikatu i klucza zestawu p12 dla apache
 sudo openssl pkcs12 -export -inkey selfsigned-userA.key -in selfsigned-userA.crt -out selfsigned-userA.p12
 sudo openssl pkcs12 -export -inkey selfsigned-userB.key -in selfsigned-userB.crt -out selfsigned-userB.p12
 ```
+
+To samo zrobiono na potrzeby nginx:
 ```
 #Utworzenie kluczy
 openssl genrsa -out nginx-userA.key 2048
@@ -82,9 +86,8 @@ sudo openssl pkcs12 -export -inkey nginx-userB.key -in nginx-userB.crt -out ngin
 ```
 
 
-Do serwerów przekazano nowo utworzony certyfikat
-```
-                                                      
+Do serwerów przekazano nowo utworzone certyfikaty
+```                                                 
 services:
   bawnginx:
     image: nginx:latest
@@ -145,10 +148,11 @@ SSLCACertificateFile "/usr/local/apache2/conf/selfsigned-ca.crt"
 ```
 
 Można było porównać inne parametry niż CN (common name) lub nawet wszystkie.
+UWAGA: Zmieniono wersję TLS'a na 1.2 aby firefox ją obsługiwał.
 
 ## Konfiguracja Nginx
 
-Dodano :
+Dodano:
 ```
 ssl_verify_client optional;
 ```
