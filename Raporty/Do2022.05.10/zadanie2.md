@@ -1,11 +1,3 @@
-## Notatki ##
-
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key_nginx.key -out cert_nginx.pem
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout key_apache.key -out cert_apache.crt
-
-
-#############
-
 
 #Zadanie 2.
 
@@ -51,21 +43,27 @@ Getting CA Private Key
 #Utworzenie kluczy
 openssl genrsa -out selfsigned-userA.key 2048
 openssl genrsa -out selfsigned-userB.key 2048
-
+```
+```bash
 #Utworzenie certyfikatów
 openssl req -new -key selfsigned-userA.key -out selfsigned-userA.csr
 openssl req -new -key selfsigned-userB.key -out selfsigned-userB.csr
-
+```
+![](/Foty/Do2022.05.10/userA_selfsigned.png)
+![](/Foty/Do2022.05.10/userB_selfsigned.png)
+```bash
 #Podpisanie certyfikatu przez CA apache
 
 sudo openssl x509 -req -in selfsigned-userA.csr -CA selfsigned-ca.crt -CAkey selfsigned-ca.key -set_serial 101 -days 365 -outform PEM -out selfsigned-userA.crt
 sudo openssl x509 -req -in selfsigned-userB.csr -CA selfsigned-ca.crt -CAkey selfsigned-ca.key -set_serial 102 -days 365 -outform PEM -out selfsigned-userB.crt
-
+```
+![](/Foty/Do2022.05.10/podpisanie_certyfikatow.png)
+```bash
 #Zrobienie z certyfikatu i klucza zestawu p12 dla apache
 sudo openssl pkcs12 -export -inkey selfsigned-userA.key -in selfsigned-userA.crt -out selfsigned-userA.p12
 sudo openssl pkcs12 -export -inkey selfsigned-userB.key -in selfsigned-userB.crt -out selfsigned-userB.p12
-
-
+```
+```
 #Utworzenie kluczy
 openssl genrsa -out nginx-userA.key 2048
 openssl genrsa -out nginx-userB.key 2048
@@ -118,7 +116,8 @@ services:
 
 
 ## konfiguracja Apache
-https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html
+Konfigurację apache wykonano na podstawie opisu w [dokumentacji](https://httpd.apache.org/docs/2.4/ssl/ssl_howto.html).
+
 W pliku konfiguracyjnym httpd-ssl.conf
 
 ```
@@ -128,13 +127,13 @@ SSLCACertificateFile "/usr/local/apache2/conf/selfsigned-ca.crt"
 <Location /only-user-a/>
   SSLVerifyClient require
   SSLVerifyDepth  10
-  SSLRequire %{SSL_CLIENT_S_DN_CN} in {"userA"}
+  SSLRequire %{SSL_CLIENT_S_DN_CN} eq "userA"
 </Location>
 
 <Location /only-user-b/>  
   SSLVerifyClient require
   SSLVerifyDepth  10
-  SSLRequire %{SSL_CLIENT_S_DN_CN} in {"userB"}
+  SSLRequire %{SSL_CLIENT_S_DN_CN} eq "userB"
 </Location>
 
 <Location /user-a-or-b/>  
@@ -145,6 +144,7 @@ SSLCACertificateFile "/usr/local/apache2/conf/selfsigned-ca.crt"
 
 ```
 
+Można było porównać inne parametry niż CN (common name) lub nawet wszystkie.
 
 ## Konfiguracja Nginx
 
@@ -188,7 +188,24 @@ Próbowano wprowadzić zabezpieczenia na podstawie:
             }  
 ```
 Ale ostatecznie żadna metoda nie chciała działać poprawnie. 
+
 ## Testy działania Apache
+
+Przed wybraniem certyfikatu:
+
+
+Po wybraniu poprawnego certyfikatu:
+
+Działa również strona A-or-B
+
+nie działa strona B
+
+
+aby ponownie pokazało sie okno z wyborem certyfikatu, nalezy usunąć z automatycznie używanych certyfikatów:
+
+Strona B działa po wybraniu certyfikatu B
+
+Za to strona A ponownie nie działa
 
 
 
