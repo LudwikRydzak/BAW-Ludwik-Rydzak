@@ -284,43 +284,56 @@ Testy opiewały:
 4. Przekierowywanie innych adresów na port 443
 
 ### Testy Apache'a
+
 Przekeirowanie jakiejś podstrony z portu 80 na 433
+
 ![](/Foty/Do2022.04.29/test_apache_przekierowanie_admin.png)
 
 Przekierowanie strony głównej z portu 80 na 443
+
 ![](/Foty/Do2022.04.29/test_apache_przekierowanie_index.png)
 
 Działający https-only na 443
+
 ![](/Foty/Do2022.04.29/test_apache_https-only.png)
 
 Działający http-https na 443
+
 ![](/Foty/Do2022.04.29/test_apache_http-https.png)
 
 
 ### Testy Nginx'a 
 
 Przekierowanie strony głównej z portu 80 na 443
+
 ![](/Foty/Do2022.04.29/test_nginx_przekierowanie_index.png)
 
 Przekeirowanie jakiejś innej strony z protu 80 na 443
+
 ![](/Foty/Do2022.04.29/test_nginx_przekierowanie_admin.png)
 
 Działa http-https na porcie 80
+
 ![](/Foty/Do2022.04.29/test_nginx_http-https_port80.png)
 
 Działa http-https na porcie 443
+
 ![](/Foty/Do2022.04.29/test_nginx_http-https_port443.png)
 
 Działa http-only na porcie 80
+
 ![](/Foty/Do2022.04.29/test_nginx_http-only.png)
 
 Działa https-only na porcie 443
+
 ![](/Foty/Do2022.04.29/test_nginx_https-only.png)
 
 Http-only zablokowany na porcie 443
+
 ![](/Foty/Do2022.04.29/test_nginx_przekierowanie_http-only.png)
 
 Https-only zablokowany na porcie 80
+
 ![](/Foty/Do2022.04.29/test_nginx_przekierowanie_https-only.png)
 
 ## Wnioski
