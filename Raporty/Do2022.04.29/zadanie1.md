@@ -1,10 +1,3 @@
-######## Notatki ########
-
-https://docs.docker.com/compose/install/
-mkdir http-only https-only https-http only-user-a only-user-b admin
-
-#########################
-
 # Zadanie 1.
 
 Cele zadania:
@@ -132,7 +125,7 @@ Oraz umieszczono własny plik index.html w plikach serwera.
 
 Po odwiedzeniu strony, przedstawia się ona następująco:
 
-![Strona apache http](apache_port80.png)
+![Strona apache http](/Foty/Do2022.04.29/apache_port80.png)
 
 Następnie odblokowano ssl_module w pliku konfiguracyjnym:
 ```
@@ -167,10 +160,10 @@ ServerName bawapache.pl:443
 ```
 
 Przeglądarka wykrywa certyfikat. 
-![Złota ramka]()
+![Złota ramka](/Foty/Do2022.04.29/zlota_ramka.png)
 
 Strona działa poprawnie
-![strona Apache na procie 443]()
+![strona Apache na procie 443](/Foty/Do2022.04.29/apache_dzialajacy_certyfikat.png)
 
 ### Przekierowanie Apache 
 
@@ -203,12 +196,6 @@ RewriteRule "^/http-only/(.+)" "-" [F]
 ```
 Blokowanie wszystkich stron /http-only na portcie 443
 
-### Testy poprawności działania
-
-1. Blokowanie https-only na porcie 80
-2. Blokowanie http-only na porcie 443
-3. Działanie http-https na obu portach
-4. Przekierowywanie innych adresów na port 443
 
 
 ## Konfiguracja serwera Nginx 
@@ -284,10 +271,36 @@ W celu sprawdzenia działania serwerów przeprowadzono testy.
 W tym celu utworzono kilka przykładowych plików stron wraz z katalogami. 
 Wybierano odpowiedni adres w przeglądarce i dokumentowano wyniki.
 
+Utworzono testowy szkielet strony:
+
+```
+mkdir http-only https-only https-http only-user-a only-user-b admin
+```
+Testy opiewały: 
+
+1. Blokowanie https-only na porcie 80
+2. Blokowanie http-only na porcie 443
+3. Działanie http-https na obu portach
+4. Przekierowywanie innych adresów na port 443
+
 ### Testy Apache'a
 
+![](/Foty/Do2022.04.29/test_apache_przekierowanie_admin.png)
+![](/Foty/Do2022.04.29/test_apache_przekierowanie_index.png)
+![](/Foty/Do2022.04.29/test_apache_https-only.png)
+![](/Foty/Do2022.04.29/test_apache_http-https.png)
+![](/Foty/Do2022.04.29/test_apache_przekierowanie_http-only.png)
+![](/Foty/Do2022.04.29/test_apache_przekierowanie_https-only.png)
 
 ### Testy Nginx'a 
+![](/Foty/Do2022.04.29/test_nginx_przekierowanie_index.png)
+![](/Foty/Do2022.04.29/test_nginx_przekierowanie_admin.png)
+![](/Foty/Do2022.04.29/test_nginx_http-https_port80.png)
+![](/Foty/Do2022.04.29/test_nginx_http-https_port443.png)
+![](/Foty/Do2022.04.29/test_nginx_http-only.png)
+![](/Foty/Do2022.04.29/test_nginx_https-only.png)
+![](/Foty/Do2022.04.29/test_nginx_przekierowanie_http-only.png)
+![](/Foty/Do2022.04.29/test_nginx_przekierowanie_https-only.png)
 
 ## Wnioski
 
