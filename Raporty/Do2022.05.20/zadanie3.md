@@ -53,7 +53,9 @@ Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpo
 
 
 Skoro wiadomo, że użyta dyrektywa działa, kolejnym krokiem jest ustawienie ograniczeń dla user-agenta.
+Konfigurację wykonano na podstawie [](https://www.nginx.com/blog/rate-limiting-nginx/ "dokumentacji")
 
+oraz [](https://urlund.com/blog/rate-limit-nginx-by-user-agent/ "bloga") z którego wzięto znaczną część kodu.
 **W tym celu dodano następujący kod do pliku nginx.conf**
 
 ```
@@ -99,9 +101,6 @@ limit_req_zone $rate_user_hard zone=rateuser_hard:16m rate=5r/m;
 }
 
 ```
-
-
-
 
 **oraz do pliku nginx_default.conf**
 
