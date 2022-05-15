@@ -140,4 +140,6 @@ Ustawianie prostego rate-limitingu dla jednej ścieżki na serwerze nginx jest d
 
 Można kontrolować dostęp dla całych ścieżek zarówno dla wszystkich jak i dla pojedynczych user-agentów (np konkretnych wersji przeglądarek)
 
+Wybierany jest ostatni zaktualizowany status. Ustawiono globalnie status 429 oraz lokalnie dla ścieżki status 418 i zwracany był 418.
+
 ## Konfiguracja Apache
