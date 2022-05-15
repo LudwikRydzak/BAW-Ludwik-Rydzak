@@ -45,16 +45,16 @@ W celu większej personalizacji zmieniono kod odrzucanych requestów z 503 na 44
 
 Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpowiedź serwera dla strony bezpośrednio w ścieżce /limit-a
 
-![Rate-limit limit-a 1/s]()
+![Rate-limit limit-a 1/s](/Foty/Do2022.05.20/rate-limit_1hz_limit-a.png)
 
-![Rate-limit limit-a 1/s server response]()
+![Rate-limit limit-a 1/s server response](/Foty/Do2022.05.20/rate-limit_1hz_limit-a_server.png)
 
 
 Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpowiedź serwera dla strony w podkatalogu /limit-a/test
 
-![Rate-limit limit-a/test 1/s]()
+![Rate-limit limit-a/test 1/s](/Foty/Do2022.05.20/rate-limit_1hz_limit-a_test.png)
 
-![Rate-limit limit-a/test 1/s server response]()
+![Rate-limit limit-a/test 1/s server response](/Foty/Do2022.05.20/rate-limit_1hz_limit-a_test_server.png)
 
 
 Skoro wiadomo, że użyta dyrektywa działa, kolejnym krokiem jest ustawienie ograniczeń dla user-agenta.
@@ -123,9 +123,21 @@ Dzięki takiemu rozwiązaniu bardzo łatwo dodawać różne wersje ograniczeń n
 
 Test rozwiązania przeprowadzono na ograniczeniu curl'a do 10 żądań na minutę i 20 żądań dla wszystkich.
 
-![test ograniczenia curla dla 10 żądań]() 
-![test ograniczenia defaultowego dla 20 żądań mieszane]()
-![test ograniczenia defaultowego dla 20 żądań sama mozilla]()
+![test ograniczenia curla dla 10 żądań](/Foty/Do2022.05.20/rate_user_medium.png) 
+![test ograniczenia defaultowego dla 20 żądań mieszane](/Foty/Do2022.05.20/rate_default.png)
+![test ograniczenia defaultowego dla 20 żądań sama mozilla](/Foty/Do2022.05.20/rate_default_sama_mozilla.png)
 
+Powyższe zdjęcia pokazują uruchomienie rate limitu kolejno :
+ - dla 10 żądań przy ograniczeniu user-agenta nałożonego na curla (wywołane ograniczenie rateuser_medium)
+ - dla 20 żądań dla wszystkich mieszane (wywołane ograniczenie default)
+ - dla 20 żądań ale tak by na pewno pokazać, że sam nieograniczany user-agent mozilli też ulega zablokowaniu (wywołane ograniczenie default)
 
-## Konfiguracja Appache
+### Wnioski częściowe
+
+Brak przekazania pliku konfiguracyjnego do docker-compose wywołuje duzo niechcianej frustracji dlatego należy zawsze sprawdzać przekazywane pliki.
+
+Ustawianie prostego rate-limitingu dla jednej ścieżki na serwerze nginx jest dosyć przyjemne i działa "od ręki".
+
+Można kontrolować dostęp dla całych ścieżek zarówno dla wszystkich jak i dla pojedynczych user-agentów (np konkretnych wersji przeglądarek)
+
+## Konfiguracja Apache
