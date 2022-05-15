@@ -101,6 +101,7 @@ bawnginx:
       - ./key_nginx.key:/etc/nginx/ssl/bawnginx.pl.key
       - ./nginx_default.conf:/etc/nginx/conf.d/default.conf
       - ./bawnginx.pl/:/usr/share/nginx/bawnginx.pl
+	  - ./nginx.conf:/etc/nginx/nginx.conf
 ```
 
 Wykorzystano oficjalny obraz nginx'a "nginx:latest"
@@ -217,7 +218,7 @@ Został on dodany osobno, a nie połączony, aby można było łatwiej dokonywa�
     ssl_certificate     /etc/nginx/ssl/bawnginx.pl.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
-    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES>
+    ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256;
     ssl_prefer_server_ciphers off;
 
     add_header Strict-Transport-Security max-age=31536000;
