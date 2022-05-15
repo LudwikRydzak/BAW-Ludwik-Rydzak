@@ -52,6 +52,78 @@ Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpo
 ![Rate-limit limit-a/test 1/s server response]()
 
 
-Skoro wiadomo, że użyta dyrektywa działa, kolejnym krokiem jest ustawienie ograniczeń dla user-agenta
+Skoro wiadomo, że użyta dyrektywa działa, kolejnym krokiem jest ustawienie ograniczeń dla user-agenta.
+
+**W tym celu dodano następujący kod do pliku nginx.conf**
+
+```
+
+limit_req_zone $binary_remote_addr zone=default:1m rate=100r/m;
+
+
+# 1 = soft, 2 = medium, 3 = hard
+map $http_user_agent $rate_user {
+    default "";
+    "~curl/*" 2;
+}
+
+# http status to apply when rules are used
+limit_req_status 429;
+
+# soft rate limit
+map $rate_user $rate_user_soft {
+    default "";
+    1    $http_user_agent;
+}
+
+limit_req_zone $rate_user_soft zone=rateuser_soft:16m rate=20r/m;
+
+# medium rate limit
+map $rate_user $rate_user_medium {
+    default "";
+    2    $http_user_agent;
+}
+
+limit_req_zone $rate_user_medium zone=rateuser_medium:16m rate=10r/m;
+
+# hard rate limit
+map $rate_user $rate_user_hard {
+    default "";
+    3    $http_user_agent;
+}
+ 
+limit_req_zone $rate_user_hard zone=rateuser_hard:16m rate=5r/m;
+
+    include /etc/nginx/conf.d/*.conf;
+
+}
+
+```
+
+
+
+
+**oraz do pliku nginx_default.conf**
+
+```
+    location /limit-a/ {
+    # apply  rules
+        limit_req zone=default burst=20 nodelay;
+        limit_req zone=rateuser_soft burst=10 nodelay;
+        limit_req zone=rateuser_medium burst=10 nodelay;
+        limit_req zone=rateuser_hard burst=5 nodelay;
+        limit_req_status 418;
+    }
+
+```
+Dzięki dodaniu burst=10 żądania nie są dzielone równo po 6 sekund na żądanie, a możliwe jest wykonanie 10 żądań na raz i dopiero po tym czasie trzeba poczekać 6 sekund na kolejne żądanie. Działa to jak bufor 10 miejsc. 
+Dzięki takiemu rozwiązaniu bardzo łatwo dodawać różne wersje ograniczeń nadając różnym user agentom różne kategorie limitingu. 
+
+Test rozwiązania przeprowadzono na ograniczeniu curl'a do 10 żądań na minutę i 20 żądań dla wszystkich.
+
+![test ograniczenia curla dla 10 żądań]() 
+![test ograniczenia defaultowego dla 20 żądań mieszane]()
+![test ograniczenia defaultowego dla 20 żądań sama mozilla]()
+
 
 ## Konfiguracja Appache
