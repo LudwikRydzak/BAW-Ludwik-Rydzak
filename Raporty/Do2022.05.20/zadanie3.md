@@ -44,18 +44,21 @@ W celu większej personalizacji zmieniono kod odrzucanych requestów z 503 na 44
 ```
 
 Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpowiedź serwera dla strony bezpośrednio w ścieżce /limit-a
+
 ![Rate-limit limit-a 1/s]()
+
 ![Rate-limit limit-a 1/s server response]()
 
+
 Na poniższych zdjęciach widać wywołanie w curl żądań do serwera oraz odpowiedź serwera dla strony w podkatalogu /limit-a/test
+
 ![Rate-limit limit-a/test 1/s]()
+
 ![Rate-limit limit-a/test 1/s server response]()
 
 
 Skoro wiadomo, że użyta dyrektywa działa, kolejnym krokiem jest ustawienie ograniczeń dla user-agenta.
-Konfigurację wykonano na podstawie [](https://www.nginx.com/blog/rate-limiting-nginx/ "dokumentacji")
-
-oraz [](https://urlund.com/blog/rate-limit-nginx-by-user-agent/ "bloga") z którego wzięto znaczną część kodu.
+Konfigurację wykonano na podstawie [dokumentacji](https://www.nginx.com/blog/rate-limiting-nginx/) oraz [bloga](https://urlund.com/blog/rate-limit-nginx-by-user-agent/) z którego wzięto znaczną część kodu.
 **W tym celu dodano następujący kod do pliku nginx.conf**
 
 ```
