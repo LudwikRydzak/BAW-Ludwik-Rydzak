@@ -143,3 +143,104 @@ Można kontrolować dostęp dla całych ścieżek zarówno dla wszystkich jak i 
 Wybierany jest ostatni zaktualizowany status. Ustawiono globalnie status 429 oraz lokalnie dla ścieżki status 418 i zwracany był 418.
 
 ## Konfiguracja Apache
+
+Jako że nie istnieje sposób na rate-limit domyślnie zaimplementowany do "core'a" apache'a potrzebna jest instalacja odpowiedniego modułu zapoewniającego taką możliwość. 
+
+Aby to osiągnąć należy zmienić jednak sposób inicjowania kontenera. Zamiast w docker compose korzystać z gotowego obrazu apache poprzez dyrektywę
+image:httpd, nalezy użyć build: i zbudować z dockerfile'a budującego obraz domyślny httpd i doinstalować do niego odpowiedni moduł.
+
+Na pierwszą (nieudaną) próbę wybrano moduł **mod_cband**
+
+Zadanie rozpoczęto więc od zmiany w docker compose:
+
+```
+bawapache:
+    build:
+      context: .
+      dockerfile: ApacheDockerFile
+    ports:
+      - 6080:80
+      - 6443:443
+    volumes:
+      - ./httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./bawapache.pl/:/var/www/bawapache.pl/
+      - ./httpd_ssl.conf:/usr/local/apache2/conf/extra/httpd-ssl.conf
+      - ./ssl/selfsigned.crt:/usr/local/apache2/conf/server.crt
+      - ./ssl/selfsigned.key:/usr/local/apache2/conf/server.key
+      - ./ssl/selfsigned-ca.crt:/usr/local/apache2/conf/selfsigned-ca.crt
+
+```
+
+Wymieniony plik **ApacheDockerFile**:
+
+```
+FROM httpd
+
+RUN apt-get update \
+        && apt-get install -y git gcc make
+RUN apt-get install -y libapr1 libapr1-dev libaprutil1-dev
+RUN git clone https://github.com/maiha/mod_cband /tmp/ \
+        && cd /tmp/ \
+        && ./configure \
+        && make \
+        && make install \
+        && rm -rf /tmp/* \
+        && cp /usr/local/apache2/modules/mod_cband.so /tmp/
+
+
+```
+
+Moduły libapr1 libapr1-dev libaprutil1-dev są wymagane przy budowaniu modułu (czego nie znaleziono w dokumentacji do modułu).
+
+po instalacji dodano do pliku httpd.conf:
+```
+LoadModule cband_module       modules/mod_cband.so
+```
+
+Następnie zmodyfikowano plik httpd_ssl.conf dodając dyrektywę CBandSpeed:
+
+```
+<IfModule mod_cband.c>
+  CBandSpeed 500 1 5
+</IfModule>
+```
+
+Kolejne wrtości oznaczają:
+
+	- 500 - przepustowość w kb/s
+	- 1 - liczbę requestów na sekundę
+	- 5 - liczbę jednoczesnych połączeń
+
+![test limitowania requestów]()
+
+**Problem**
+
+Dyrektywy tego modułu działają jedynie w kontekście VirtualHosta, nie mogą działać ani wewnątrz <If>, ani wewnątrz <Location>. Znacznie utrudnia to wykonanie zadania. 
+
+Zdecydowano się utworzyć szczególne zasady: Ograniczyć 1 raz na sekundę ruch dla wszystkich (w domyśle ograniczony user agent),
+ przekeirować resztę żądań na innego, identycznego co do zawartości virtualhosta, którego limit będzie 2x wiekszy (aby odpowiadał w przybliżeniu założeniom zadania).
+ Wewnątrz tego virtualhosta wywołać If'a który będzie wywoływał response 503 jesli jest to ograniczony user, albo będzie pokazywał stronę normalnie, jeśli jest to nieograniczony user. 
+ 
+ Takie rozwiązanie pomimo swojej zawiłości powinno w teorii zapewnić przybliżone do założonych rezultaty.
+
+
+Próbowano przekierowywać nieudane połączenia na inny URL dyrektywą CBandExceededURL, ale nie zadziałało to poprawnie.
+
+W tym celu utworzono nowy VrtualHost któwy miał być identyczny do zwyklej strony a nastepnie przekierowano dyrektywą:
+```
+CBandExceededURL https://bawlimit.pl:6443/%{HTTP_HOST}
+```
+  
+Jak wspomniano wcześniej powyższe próby nie zadziałały i strona po osiągnieciu limitu odpowiadała domyślnym kodem 503.
+
+Sam moduł działa bardzo źle, zamisat limitować 1 żądanie na sekundę to opóźnia bardzo dużą część żądań zanim jakiekolwiek zablokuje. Moduł działa wolno i część dyrektyw nie działa prawidłowo. Jest bardzo ograniczony co do kontekstu jego użycia i jego funkcji.
+
+
+### Nowy moduł - mod_qos
+
+Moduł mod_qos służy głównie do blokowania ataków DoS. 
+
+
+
+
+ 
