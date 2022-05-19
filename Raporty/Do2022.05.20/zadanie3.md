@@ -240,6 +240,71 @@ Sam moduł działa bardzo źle, zamisat limitować 1 żądanie na sekundę to op
 
 Moduł mod_qos służy głównie do blokowania ataków DoS. 
 
+Instalacja tego modułu jest zadziwiająco prosta w porównaniu do poprzedniego. 
+Wystarczy w dockerfile wpisać:
+```
+RUN apt-get install -y libapache2-mod-qos
+```
+
+
+Jednak po zmaganiach z poprzednim modułem zostały w dockerfile przydatne instalacje, ponieważ ten moduł równiez używa libapr1. 
+
+Również nie zaszkodzi mieć gita. Cały ApacheDockerFile wygląda następująco:
+```
+FROM httpd
+
+RUN apt-get update \
+        && apt-get install -y git gcc make
+RUN apt-get install -y libapr1 libapr1-dev libaprutil1-dev
+RUN apt-get install -y libapache2-mod-qos
+```
+
+W tym miejscu warto wspomnieć o niepowodzeniach przy okazji instalacji.
+Przy próbie zbudowania obrazu 
+
+```
+docker compose -f docker-compose.yml down 
+docker compose -f docker-compose.yml build 
+#Tutaj pojawił się błąd
+
+docker compose -f docker-compose.yml up
+```
+pojawił się błąd:
+
+**Temporary failure resolving 'deb.debian.org'**
+
+Aby go rozwiązać najpierw zrestartowano dockera, a jak to nie przyniosło poprawy, to całą maszynę wirtualną. Reset przyniósł pozytywny skutek.
+
+
+Do modułu dostać się można ładując go w pliku httpd.conf:
+```
+LoadModule qos_module  /usr/lib/apache2/modules/mod_qos.so
+```
+Jest to inna ścieżka niż przy reszcie modułów które instalują się w /usr/locale zamiast /usr/lib.
+
+### Ustawienia rate-limitu
+
+Do ustawienia rate limitu skorzystano z [dokumentacji](http://mod-qos.sourceforge.net/)
+Ostatecznie zdecydowano się na dyrektywę QS_EventLimitCount dla limitowania wszystkich do 100 żądań na minutę (60 sekund) 
+oraz QS_CondClientEventLimitCount do limitowania konkretnego user-agenta 10 żądań na minutę (60 sekund). 
+Kod wklejony przed VrtualHost'em (ustawienia nie mogły działać w kontekście virtualhosta)
+
+```
+SetEnvIf Request_URI ^/limit-a Limit_a
+
+QS_EventLimitCount Limit_a 100 60
+
+SetEnvIf User-Agent curl QS_COND=curl
+QS_CondClientEventLimitCount 10 60 Limit_a curl
+
+```
+
+### Testy działania
+
+Testy działania przeprowadzono na limitach 10r/m dla limitowanego user_agneta i 15r/m dla nie limitowanego. 
+
+
+
 
 
 
