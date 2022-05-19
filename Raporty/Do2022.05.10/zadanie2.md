@@ -1,4 +1,4 @@
-#Zadanie 2.
+# Zadanie 2.
 
 Celem zadania drugiego jest utworzenie certyfikatów dla użytkownika A i użytkownika B oraz
 skonfigurowanie ścieżek /only-user-a, /only-user-b oraz /user-a-or-b tak aby tylko odpowiedni użytkownik miał 
