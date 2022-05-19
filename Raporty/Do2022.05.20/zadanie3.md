@@ -211,7 +211,9 @@ Kolejne wrtości oznaczają:
 	- 1 - liczbę requestów na sekundę
 	- 5 - liczbę jednoczesnych połączeń
 
-![test limitowania requestów]()
+![test limitowania requestów](/Foty/Do2022.05.20/apache_rate_limit_test.png)
+
+Udało się ograniczyć limitowanie do 1 żądania na sekundę.
 
 **Problem**
 
