@@ -305,21 +305,21 @@ Testy działania przeprowadzono na limitach 10r/m dla limitowanego user_agneta i
 
 **Najpierw wykonano 10 zapytań curl'em do zablokowania, a następnie 5 kolejnych zapytań Przeglądarką do zablokowania**
 
-![apache_test]()
+![apache_test](/Foty/Do2022.05.20/apache_test.png)
 
 Na zdjęciu widać, że serwer do zablokowania curla użył dyrektywy QS_CondClientEventLimitCount, a do zablokowania reszty ruchu QS_EventLimitCount.
 
 
 **Wykonano 17 zapytań mozillą aby pokazać brak aktywacji dyrektywy dla user-agenta przy innym user-agencie**
 
-![apache_mozilla_only]()
+![apache_mozilla_only](/Foty/Do2022.05.20/apache_mozilla_only.png)
 
 Na zdjeciu widać również jak zwiększa się counter przy kolejnych żądaniach.
 
 
 **Na koniec wykonano serię zapytań curlem na inną stronę niż /limit-a**
 
-![apache_test_home]()
+![apache_test_home](/Foty/Do2022.05.20/apache_test_home.png)
 
 Test wypadł pozytynie nie blokując żadnego żądania. 
 
