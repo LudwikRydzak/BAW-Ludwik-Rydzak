@@ -1,0 +1,6 @@
+FROM httpd
+
+RUN apt-get update \
+        && apt-get install -y git gcc make
+RUN apt-get install -y libapr1 libapr1-dev libaprutil1-dev 
+RUN apt-get install -y libapache2-mod-qos
