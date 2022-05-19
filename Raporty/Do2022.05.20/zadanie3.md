@@ -303,8 +303,52 @@ QS_CondClientEventLimitCount 10 60 Limit_a curl
 
 Testy działania przeprowadzono na limitach 10r/m dla limitowanego user_agneta i 15r/m dla nie limitowanego. 
 
+**Najpierw wykonano 10 zapytań curl'em do zablokowania, a następnie 5 kolejnych zapytań Przeglądarką do zablokowania**
+
+![apache_test]()
+
+Na zdjęciu widać, że serwer do zablokowania curla użył dyrektywy QS_CondClientEventLimitCount, a do zablokowania reszty ruchu QS_EventLimitCount.
 
 
+**Wykonano 17 zapytań mozillą aby pokazać brak aktywacji dyrektywy dla user-agenta przy innym user-agencie**
+
+![apache_mozilla_only]()
+
+Na zdjeciu widać również jak zwiększa się counter przy kolejnych żądaniach.
+
+
+**Na koniec wykonano serię zapytań curlem na inną stronę niż /limit-a**
+
+![apache_test_home]()
+
+Test wypadł pozytynie nie blokując żadnego żądania. 
+
+## Wnioski
+
+Zadanie rate-limitingu było bardzo proste dla nginx gdzie domyślnie intuicyjnie zablokowano niechciany ruch. 
+
+W celu usprawnienia działania dodano dodatkowo parametr burst aby czas na kolejne żądania nie był podzielony równo po 6 sekund. 
+
+Samo ustawienie rozbudowano na podstawie bloga o konfigurację poszczególnych grup limitujących co znacznie automatyzuje proces konfiguracji.
+
+Dla apache'a zadanie rate limitingu było bardzo dużym wyzwaniem. Wszystkie moduły są nieaktualizowane i nie ma łatwo dostępnej widzy w internecie z którego modułu korzystać. 
+
+Wybrano najpierw moduł mod_cband który okazał się być problematyczny w instalacji oraz niemożliwy w konfiguracji do potrzeb zadania. 
+
+W następnej kolejności wybrano moduł mod_qos i była to duża odmiana zarówno w instalacji jedną linijką w dockerfile,
+ a następnie w konfiguracji bezpośrednio pod potrzeby zadania.
+
+Finalnie konfiguracja nginx zajęła wraz z rozpoznaniem się w temacie 2 godziny, 
+a konfiguracja Apache'a wraz z poszukiwaniem modułów, rozwiązywaniem problemów instalacji, próbami konfiguracji, 
+wybieraniem nowego modułu, instalacją i wybraniem z dokumentacji odpowiednich dyrektyw, które odpowiednio użyto zajęła 4 dni.
+
+Znaczym ułatwieniem dla zadania byłoby wskazanie modułu mod_qos ponieważ praca z nim była rzeczywiście przyjemna, 
+pomimo ogromnych rozmiarów modułu i obszernej dokumentacji (Która zdaje sie celowo pomijała przykłady dla użytych dyrektyw).
+
+
+## Konkluzja
+
+Zadanie udało się wykonać zarówno dla nginx i apache w 100%. 
 
 
 
