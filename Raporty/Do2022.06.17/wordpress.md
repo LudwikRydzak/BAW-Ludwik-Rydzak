@@ -156,6 +156,7 @@ Przy pomocy narzędzia searchsploit wyszukano podatności na tę wersję wordpre
 
 
 Okazało się że jedna z podatności zakłada widoczność prywatnych postów i stron przy wpisaniu w url atrybutu static=1.
+Prawodpodobnie wynika to ze złego przetwarzania atrybutów zapytania. 
 
 [Link](https://github.com/offensive-security/exploitdb/blob/master/exploits/multiple/webapps/47690.md) do opisu podatności.
 
