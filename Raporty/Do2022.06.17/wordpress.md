@@ -73,6 +73,7 @@ Jak widać na zrzucie ekranu poniżej, prywatne ustawienia działają i dla inny
 
 ![widocznosc](/Foty/Do2022.06.17/widocznosc.png)
 
+Na koniec ustaiono domenę wordpress.baw w pliku /etc/hosts pod localhosta.
 ## Rekonesans
 Rekonesans rozpoczęto od skanu podatności. 
 
@@ -149,12 +150,22 @@ Głównym znaleziskiem była wersja wordpressa
  WordPress version 4.7.5 identified (Insecure, released on 2017-05-16)
 ```
 
-![set_rhost](/Foty/Do2022.06.17/set_rhost.png)
+Przy pomocy narzędzia searchsploit wyszukano podatności na tę wersję wordpressa.
 
 ![available_exploits](/Foty/Do2022.06.17/available_exploits.png)
 
+
+Okazało się że jedna z podatności zakłada widoczność prywatnych postów i stron przy wpisaniu w url atrybutu static=1.
+
+[Link](https://github.com/offensive-security/exploitdb/blob/master/exploits/multiple/webapps/47690.md) do opisu podatności.
+
 ## Atak
+Atak polegał na użyciu prostej podatności dzięki czemu wyciekły prywatne strony administratora w tym strona z jego hasłem.
+
+Hasło widoczne na dole zrzutu.
 
 ![wyciek_hasla](/Foty/Do2022.06.17/wyciek_hasla.png)
+
+Hasło pozwoliło na udane zalogowanie na panel administratora.
 ![udane_włamanie](/Foty/Do2022.06.17/udane_włamanie.png)
 
