@@ -167,5 +167,5 @@ Hasło widoczne na dole zrzutu.
 ![wyciek_hasla](/Foty/Do2022.06.17/wyciek_hasla.png)
 
 Hasło pozwoliło na udane zalogowanie na panel administratora.
-![udane_włamanie](/Foty/Do2022.06.17/udane_włamanie.png)
+![udane_włamanie](/Foty/Do2022.06.17/udane_wlamanie.png)
 
